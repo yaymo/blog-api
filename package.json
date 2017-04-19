@@ -2,7 +2,7 @@
   "name": "node-blog-api",
   "version": "1.0.0",
   "description": "\"blog api\"",
-  "main": "blogRouter.js",
+  "main": "server.js",
   "scripts": {
     "test": "mocha",
     "start": "node server.js"
