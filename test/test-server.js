@@ -69,7 +69,7 @@ describe('blog', function() {
         updatedItem.id = res.body[0].id;
 
         return chai.request(app)
-          .put(`/BlogPosts/${updatedItem.id}`)
+          .put(`/blog-posts/${updatedItem.id}`)
           .send(updatedItem)
       })
 
