@@ -37,11 +37,11 @@ describe('blog', function() {
 
   it('should add blog on POST', function() {
     const newItem = {title: 'basketball', author: 'jameson', content: 'basketball is fun',
-    publishDate: '4/17/2017'}
+    publishDate: '4/17/2017'};
 
     return chai.request(app)
       .post('/blog-posts')
-      .send(newItem);
+      .send(newItem)
 
   })
     .then(function(res) {
@@ -62,7 +62,7 @@ describe('blog', function() {
       author: 'Jameson Hill',
       content: 'Basketball is fun. Golf too.',
       publishDate: '4/17/2017'
-    }
+    };
     return chai.request(app)
       .get('/blog-posts')
       .then(function(res) {
@@ -70,7 +70,7 @@ describe('blog', function() {
 
         return chai.request(app)
           .put(`/BlogPosts/${updatedItem.id}`)
-          .send(updatedItem);
+          .send(updatedItem)
       })
 
         .then(function(res) {
