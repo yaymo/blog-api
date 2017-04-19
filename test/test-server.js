@@ -4,7 +4,7 @@ const chaiHttp = require('chai-http');
 
 const {app, runServer, closeServer} = require('../server');
 
-const should = chai.should();
+const should = require('chai').should();
 
 chai.use('chaiHttp');
 
@@ -37,7 +37,7 @@ describe('blog', function() {
 
   it('should add blog on POST', function() {
     const newItem = {title: 'basketball', author: 'jameson', content: 'basketball is fun',
-    publishDate: '4/17/2017'};
+    publishDate: '04/17/2017'};
 
     return chai.request(app)
       .post('/blog-posts')
