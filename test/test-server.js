@@ -22,10 +22,10 @@ describe('blog', function() {
     return chai.request(app)
       .get('/blog-posts')
       .then(function(res) {
+        res.should.have.status(200);
         res.body.should.be.a('array');
         res.should.be.json;
         res.body.length.should.be.above(0);
-        res.should.have.status(200);
 
         const expectedKeys = ['id', 'title', 'author', 'content', 'publishDate'];
         res.body.forEach(function(item) {
@@ -42,17 +42,16 @@ describe('blog', function() {
     return chai.request(app)
       .post('/blog-posts')
       .send(newItem)
-
-  })
-    .then(function(res) {
-      res.should.have.status(201);
-      res.should.be.json;
-      res.body.should.be.a('object');
-      res.body.should.have.all.keys('id', 'title', 'author', 'content', 'publishDate');
-      res.body.title.should.equal(newItem.title);
-      res.body.author.should.equal(newItem.author);
-      res.body.id.should.not.be.null;
-      res.body.should.deep.equal(Object.assign(newItem, {id: res.body.id}));
+      .then(function(res) {
+          res.should.have.status(201);
+          res.should.be.json;
+          res.body.should.be.a('object');
+          res.body.should.have.all.keys('id', 'title', 'author', 'content', 'publishDate');
+          res.body.title.should.equal(newItem.title);
+          res.body.author.should.equal(newItem.author);
+          res.body.id.should.not.be.null;
+          res.body.should.deep.equal(Object.assign(newItem, {id: res.body.id}));
+        });
     });
 
 

@@ -9,6 +9,8 @@ app.use(morgan('common'));
 
 app.use('/blog-posts', blogRouter);
 
+let server;
+
 function runServer() {
   const port = process.env.PORT || 8080;
   return new Promise((resolve, reject) => {
@@ -39,6 +41,3 @@ if (require.main === module) {
 };
 
 module.exports = {app, runServer, closeServer};
-app.listen(process.env.PORT || 8080, () => {
-  console.log(`your app is listenting on port ${process.env.PORT || 8080}`);
-});
