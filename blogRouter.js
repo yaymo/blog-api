@@ -10,12 +10,12 @@ const {BlogPosts} = require('./models');
 BlogPosts.create('Hello World', 'Jameson Hill', 'Lorem Ipsum', '4/3/2017');
 BlogPosts.create('Goodbye Universe', 'John Smith', 'BYE BYE BYE BYE', '4/2/2017');
 
-router.get('/blog-posts', (req, res) =>{
+router.get('/', (req, res) =>{
   res.json(BlogPosts.get());
 });
 
 
-router.post('/blog-posts', jsonParser, (req, res) => {
+router.post('/', jsonParser, (req, res) => {
   const requiredFields = ['title', 'author', 'content', 'publishDate'];
   for(let i=0; i<requiredFields.length; i++){
     const field = requiredFields[i];
@@ -30,14 +30,14 @@ router.post('/blog-posts', jsonParser, (req, res) => {
 });
 
 
-router.delete('/blog-posts/:id', (req, res) =>{
+router.delete('/:id', (req, res) =>{
   BlogPosts.delete(req.params.id);
   console.log(`Deleted blog post \`${req.params.id}\``);
   res.status(204).end();
 });
 
 
-router.put('/blog-posts/:id', jsonParser, (req, res) => {
+router.put('/:id', jsonParser, (req, res) => {
   const requiredFields = ['title', 'author', 'content', 'publishDate'];
   for(let i=0; i<requiredFields.length; i++){
     const field = requiredFields[i];
