@@ -1,6 +1,6 @@
 const chai = require('chai');
 
-const chaiHttp = require('chai-Http');
+const chaiHttp = require('chai-http');
 
 const {app, runServer, closeServer} = require('../server');
 
@@ -20,7 +20,7 @@ describe('blog', function() {
 
   it('should list blogs on GET', function() {
     return chai.request(app)
-      .get('/BlogPosts')
+      .get('/blog-posts')
       .then(function(res) {
         res.body.should.be.a('array');
         res.should.be.json;
@@ -40,7 +40,7 @@ describe('blog', function() {
     publishDate: '4/17/2017'}
 
     return chai.request(app)
-      .post('/BlogPosts')
+      .post('/blog-posts')
       .send(newItem);
 
   })
@@ -63,7 +63,7 @@ describe('blog', function() {
       publishDate: '4/17/2017'
     }
     return chai.request(app)
-      .get('/BlogPosts')
+      .get('/blog-posts')
       .then(function(res) {
         updatedItem.id = res.body[0].id;
 
@@ -85,10 +85,10 @@ describe('blog', function() {
 
   it('should delete blog on DELETE', function() {
     return chai.request(app)
-      .get('/BlogPosts')
+      .get('/blog-posts')
       .then(function(res) {
         return chai.request(app)
-          .delete(`/BlogPosts/${res.body[0].id}`)
+          .delete(`/blog-posts/${res.body[0].id}`)
       })
       .then(function(res) {
         res.should.have.status(204);
