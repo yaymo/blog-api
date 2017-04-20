@@ -6,7 +6,7 @@ const {app, runServer, closeServer} = require('../server');
 
 const should = require('chai').should();
 
-chai.use('chaiHttp');
+chai.use(chaiHttp);
 
 describe('blog', function() {
 
@@ -36,8 +36,12 @@ describe('blog', function() {
   });
 
   it('should add blog on POST', function() {
-    const newItem = {title: 'basketball', author: 'jameson', content: 'basketball is fun',
-    publishDate: '04/17/2017'};
+    const newItem = {
+      title: 'basketball',
+      author: 'jameson',
+      content: 'basketball is fun',
+      publishDate: '04/17/2017'
+    };
 
     return chai.request(app)
       .post('/blog-posts')
@@ -48,39 +52,30 @@ describe('blog', function() {
           res.body.should.be.a('object');
           res.body.should.have.all.keys('id', 'title', 'author', 'content', 'publishDate');
           res.body.title.should.equal(newItem.title);
-          res.body.author.should.equal(newItem.author);
-          res.body.id.should.not.be.null;
-          res.body.should.deep.equal(Object.assign(newItem, {id: res.body.id}));
+
         });
     });
 
 
   it('should update blogs on PUT', function() {
-    const updatedItem = {
-      title: 'Sports - Basketball and golf',
-      author: 'Jameson Hill',
-      content: 'Basketball is fun. Golf too.',
-      publishDate: '4/17/2017'
-    };
+
     return chai.request(app)
       .get('/blog-posts')
       .then(function(res) {
-        updatedItem.id = res.body[0].id;
+        const updatedItem = Object.assign(res.body[0], {
+          title: 'basketball is life',
+          content: 'basketball is fun'
+        });
 
         return chai.request(app)
-          .put(`/blog-posts/${updatedItem.id}`)
+          .put(`/blog-posts/${res.body[0].id}`)
           .send(updatedItem)
-      })
-
-        .then(function(res) {
-          res.should.have.status(200);
-          res.should.be.json;
-          res.body.title.should.equal(updatedItem.title);
-          res.body.author.should.equal(updatedItem.author);
-          res.body.content.should.equal(updatedItem.content);
-          res.body.publishDate.should.equal(updatedItem.publishDate);
-          res.body.should.be.a('object');
+          .then(function(res) {
+            res.should.have.status(204);
+            res.body.should.be.a('object');
         });
+
+      });
   });
 
   it('should delete blog on DELETE', function() {
