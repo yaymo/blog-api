@@ -69,6 +69,82 @@ app.delete('/posts/:id', (req, res) => {
     });
 });
 
+app.put('/posts/:id', (req, res) => {
+  if(!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    res.status(400).json({error:'Request path id and body id must match'});
+  }
+
+  const updated = {};
+  const updateableFields = ['title', 'content', 'author'];
+  updateableFields.forEach(field => {
+    if(field in req.body) {
+      updated[field] = req.body[field];
+    }
+  });
+
+  BlogPost
+    .findByIdAndUpdate(req.params.id, ${$set: updated}, {new:true})
+    .exec()
+    .then(updatedPost => res.status(201).json(updatedPost.apiRepr()))
+    .catch(err => res.status(500).json({message: 'Internal Server Error'}));
+
+});
+
+app.delete('/:id', (req, res) => {
+  BlogPost
+    .findByIdAndRemove(req.params.id)
+    .exec()
+    .then(() => {
+      console.log(`Deleted post with id \`${req.params.ID}\``);
+      res.status(204).end();
+    });
+});
+
+app.use('*', function(req, res) {
+  res.status(404).json({message: 'Not found'});
+});
+
+let server;
+
+function runServer(databaseURL=DATABASE_URL, port=PORT) {
+  return new Promise(resolve, reject) => {
+    mongoose.connect(databaseURL, err => {
+      if(err) {
+        return reject(err);
+      }
+      server = app.listen(port, ()=> {
+        console.log(`app is listening on port ${port}`);
+        resolve();
+      })
+      .on('error', err=> {
+        mongoose.disconnect();
+        reject(err);
+      });
+    });
+  });
+}
+
+
+function closeServer() {
+  return mongoose.disconnect().then(() => {
+    return new Promise(resolve, reject) => {
+      console.log('close server');
+      server.close(err => {
+        if(err) {
+          return reject(err);
+        }
+        resolve();
+      });
+    };
+  });
+}
+
+
+if(require.main === module) {
+  runServer().catch(err => console.error(err));
+};
+
+module.exports = {runServer, app, closeServer};
 
 
 
