@@ -112,11 +112,11 @@ function runServer(databaseURL=DATABASE_URL, port=PORT) {
       if(err) {
         return reject(err);
       }
-      server = app.listen(port, ()=> {
+      server = app.listen(port, () => {
         console.log(`app is listening on port ${port}`);
         resolve();
       })
-      .on('error', err=> {
+      .on('error', err => {
         mongoose.disconnect();
         reject(err);
       });
@@ -127,7 +127,7 @@ function runServer(databaseURL=DATABASE_URL, port=PORT) {
 
 function closeServer() {
   return mongoose.disconnect().then(() => {
-    return new Promise(resolve, reject) => {
+    return new Promise((resolve, reject) => {
       console.log('close server');
       server.close(err => {
         if(err) {
