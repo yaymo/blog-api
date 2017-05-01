@@ -135,7 +135,7 @@ function closeServer() {
         }
         resolve();
       });
-    };
+    });
   });
 }
 
