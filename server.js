@@ -8,7 +8,7 @@ const {DATABASE_URL, PORT} = require('./config');
 const app = express();
 
 app.use(morgan('common'));
-app.user(bodyParser.json());
+app.use(bodyParser.json());
 
 mongoose.Promise = global.Promise;
 
