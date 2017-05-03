@@ -17,7 +17,7 @@ app.get('/posts', (req, res) => {
     .find()
     .exec()
     .then(posts => {
-      res.json(posts.map(post=> post.apiRepr()));
+      res.json(posts.map(post => post.apiRepr()));
     })
     .catch(err => {
       console.error(err);
@@ -40,7 +40,7 @@ app.post('/posts', (req, res) => {
   const reqFields = ['title', 'content', 'author'];
   for(let i=0; i<reqFields.length; i++){
     const field = reqFields[i];
-    if(!(field in reqFields)){
+    if(!(field in req.body)){
       const message = `Missing \`${field}\` in request body`
       console.error(message);
       res.status(400).send(message);

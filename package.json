@@ -1,7 +1,7 @@
 {
-  "name": "node-blog-api",
+  "name": "node-blog-app",
   "version": "1.0.0",
-  "description": "\"blog api\"",
+  "description": "\"blog app\"",
   "main": "server.js",
   "scripts": {
     "test": "mocha",
